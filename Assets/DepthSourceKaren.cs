@@ -4,31 +4,35 @@ using System.Collections;
 public class DepthSourceKaren : MonoBehaviour {
 
 
-    public GameObject DepthSourceManager;
-    private DepthSourceManager _DepthManager;
+    public GameObject depthSourceManager;
+    private DepthSourceManager _depthManager;
+
+    public Texture depthOutputTexture;
 
 
 
     void Start()
     {
         gameObject.GetComponent<Renderer>().material.SetTextureScale("_MainTex", new Vector2(-1, 1));
+        
     }
 
     void Update()
     {
-        if (DepthSourceManager == null)
+        if (depthSourceManager == null)
         {
             return;
         }
-        _DepthManager = DepthSourceManager.GetComponent<DepthSourceManager>();
+        _depthManager = depthSourceManager.GetComponent<DepthSourceManager>();
         
-        if (_DepthManager == null)
+        if (_depthManager == null)
         {
             return;
         }
 
-        gameObject.GetComponent<Renderer>().material.mainTexture = _DepthManager.GetDepthTexture();
+        gameObject.GetComponent<Renderer>().material.mainTexture = _depthManager.GetDepthTexture();
+        depthOutputTexture = _depthManager.GetDepthTexture();
 
-        
+
     }
 }

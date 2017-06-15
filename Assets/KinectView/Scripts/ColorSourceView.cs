@@ -4,8 +4,10 @@ using Windows.Kinect;
 
 public class ColorSourceView : MonoBehaviour
 {
-	public GameObject ColorSourceManager;
-	private ColorSourceManager _ColorManager;
+	public GameObject colorSourceManager;
+	private ColorSourceManager _colorManager;
+
+    public Texture colorOutputTexture;
 	
     void Start ()
     {
@@ -14,17 +16,18 @@ public class ColorSourceView : MonoBehaviour
     
     void Update()
     {
-		if (ColorSourceManager == null)
+		if (colorSourceManager == null)
 		{
 			return;
 		}
-		
-		_ColorManager = ColorSourceManager.GetComponent<ColorSourceManager>();
-		if (_ColorManager == null)
+
+        _colorManager = colorSourceManager.GetComponent<ColorSourceManager>();
+		if (_colorManager == null)
 		{
 			return;
 		}
-		
-		gameObject.GetComponent<Renderer>().material.mainTexture = _ColorManager.GetColorTexture();
+
+        gameObject.GetComponent<Renderer>().material.mainTexture = _colorManager.GetColorTexture();
+        colorOutputTexture = _colorManager.GetColorTexture();
     }
 }
