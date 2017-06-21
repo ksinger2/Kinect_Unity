@@ -7,7 +7,7 @@ Shader "Custom/MRCaptureTestB"
 		_Color("", Color) = (1,1,1,1)
 		_MainTex("Color", 2D) = "white" {}
 		_DepthFeedTex("Depth", 2D) = "white" {}
-		_OffsetScale("Offset Scale",Range(0,10)) = 1
+		_OffsetScale("Offset Scale",Range(0,1)) = 1
 		_Smoothing("Smoothing",Range(0,1)) = 0.5
 	}
 		SubShader
@@ -41,7 +41,7 @@ Shader "Custom/MRCaptureTestB"
 
 
 	float getDisplacement(float2 uv) {
-		return tex2Dlod(_DepthFeedTex, float4(uv, 0, 0)).r;
+		return tex2Dlod(_DepthFeedTex, float4(uv, 0, 0)).r  *_OffsetScale;;
 		/*float depthVal = tex2Dlod(_DepthFeedTex, float4(uv, 0, 0)).r;
 		float colVal = tex2Dlod(_MainTex, float4(uv, 0, 0)).b;
 		colVal = saturate(1-colVal * 10);
@@ -83,7 +83,7 @@ Shader "Custom/MRCaptureTestB"
 		o.Metallic = 0;// _Metallic;
 		o.Smoothness = 0;// _Glossiness;
 		float depthVal = saturate(tex2D(_DepthFeedTex, IN.uv_MainTex).r*10);
-		float colVal = saturate((1 - tex2D(_MainTex, IN.uv_MainTex).b) * 10); //make blue alpha .. but wrong blue for now
+		float colVal = 1;// saturate((1 - tex2D(_MainTex, IN.uv_MainTex).b) * 10); //make blue alpha .. but wrong blue for now
 		o.Alpha = depthVal*colVal;
 	}
 

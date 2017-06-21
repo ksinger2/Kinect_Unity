@@ -27,12 +27,21 @@ public class DepthSourceManager : MonoBehaviour
     private DepthFrameReader _Reader;
 
     private Texture2D _Texture;
+    private Texture2D _newTexture;
     public Texture2D GetDepthTexture()
     {
-        return _Texture;
+        return _newTexture;
     }
 
+
     private ushort[] _Data;
+
+
+    public ushort[] GetDepthData()
+    {
+        return _Data;
+    }
+
 
     private int _DepthWidth;
     public int GetDepthWidth()
@@ -40,7 +49,7 @@ public class DepthSourceManager : MonoBehaviour
         return _DepthWidth;
     }
 
-    private int _DepthHeight;
+    private int _DepthHeight; 
     public int GetDepthHeight()
     {
         return _DepthHeight;
@@ -61,7 +70,10 @@ public class DepthSourceManager : MonoBehaviour
 
             // Use ARGB4444 as there's no handier 16 bit texture format readily available
             _Texture = new Texture2D(_DepthWidth, _DepthHeight, TextureFormat.BGRA32, false);
-           // _Data = new byte[_Sensor.DepthFrameSource.FrameDescription.LengthInPixels * _Sensor.DepthFrameSource.FrameDescription.BytesPerPixel];
+            Debug.Log("wid " + _DepthWidth + "   height " + _DepthHeight);
+            _newTexture = new Texture2D(_DepthWidth, 384, TextureFormat.BGRA32, false);
+
+            // _Data = new byte[_Sensor.DepthFrameSource.FrameDescription.LengthInPixels * _Sensor.DepthFrameSource.FrameDescription.BytesPerPixel];
 
             _Data = new ushort[frameDesc.LengthInPixels];
             _rawData = new byte[frameDesc.LengthInPixels * 4];
@@ -111,25 +123,42 @@ public class DepthSourceManager : MonoBehaviour
                     }
 
                 }
-                /*
-                foreach (var ir in _Data)
-                {
-                    byte intensity = (byte)();
-                    _rawData[index++] = 255;
-                    _rawData[index++] = 255;
-                    _rawData[index++] = 255;
-                    _rawData[index++] = 255; // Alpha
-                }
-                */
-                /*fixed (byte* pData = _rawData)
-                {
-                    frame.CopyFrameDataToIntPtr(new System.IntPtr(pData), (uint)_Data.Length);
-                }*/
+
                 frame.Dispose();
                 frame = null;
 
                 _Texture.LoadRawTextureData(_rawData);
+
+                /*
+                for (int i = 0; i < _Texture.height; i++)
+                {
+                    for (int j = 0; j < _Texture.width; j++)
+                    {
+                        if (i > 394)
+                        {
+                            //Turn black
+                            _Texture.SetPixel(j, i, Color.cyan);
+                        }
+
+                    }
+
+                }*/
                 _Texture.Apply();
+
+
+                for (int i = 0; i < _newTexture.height; i++)
+                {
+                    for (int j = 0; j < _newTexture.width; j++)
+                    {
+                        //Turn black
+                        _newTexture.SetPixel(j, i, _Texture.GetPixel(j, i + 424));
+
+                    }
+
+                }
+                _newTexture.Apply();
+
+
             }
         }
     }

@@ -17,7 +17,7 @@ public class ColorDepthManager : MonoBehaviour {
 
     private void Start()
     {
-        highVertexPlaneMat.SetTextureScale("_MainTex", new Vector2(-1, 1));
+        //highVertexPlaneMat.SetTextureScale("_MainTex", new Vector2(-1, 1));
 
     }
     private void Update()

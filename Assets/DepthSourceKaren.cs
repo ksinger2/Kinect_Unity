@@ -13,7 +13,7 @@ public class DepthSourceKaren : MonoBehaviour {
 
     void Start()
     {
-        gameObject.GetComponent<Renderer>().material.SetTextureScale("_MainTex", new Vector2(-1, 1));
+        //gameObject.GetComponent<Renderer>().material.SetTextureScale("_MainTex", new Vector2(-1, 1));
         
     }
 
@@ -30,7 +30,7 @@ public class DepthSourceKaren : MonoBehaviour {
             return;
         }
 
-        gameObject.GetComponent<Renderer>().material.mainTexture = _depthManager.GetDepthTexture();
+       // gameObject.GetComponent<Renderer>().material.mainTexture = _depthManager.GetDepthTexture();
         depthOutputTexture = _depthManager.GetDepthTexture();
 
 
